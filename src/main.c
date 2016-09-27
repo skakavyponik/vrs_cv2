@@ -79,6 +79,10 @@ int main(void)
   /* Infinite loop */
   while (1)
   {
+	GPIOA->ODR &= ~(uint16_t)(0b1)<<5;
+	GPIOA->ODR |= (uint16_t)(0b1)<<5;
+	GPIOA->BSRRH |= (uint16_t)(0b1)<<5;
+	GPIOA->BSRRL |= (uint16_t)(0b1)<<5;
 	i++;
   }
   return 0;
