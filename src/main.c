@@ -68,7 +68,13 @@ int main(void)
   */
 
   /* TODO - Add your application code here */
-
+  RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOA, ENABLE);
+  GPIOA->MODER |= (uint32_t)(0b01)<<10;
+  GPIOA->MODER &= ~(uint32_t)(0b10)<<10;
+  GPIOA->OTYPER &= ~(uint16_t)(0b1)<<5;
+  GPIOA->PUPDR |= (uint32_t)(0b01)<<10;
+  GPIOA->PUPDR &= ~(uint32_t)(0b10)<<10;
+  GPIOA->OSPEEDR |= (uint32_t)(0b11)<<10;
 
   /* Infinite loop */
   while (1)
