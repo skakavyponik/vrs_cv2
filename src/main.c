@@ -75,6 +75,10 @@ int main(void)
   GPIOA->PUPDR |= (uint32_t)(0b01)<<10;
   GPIOA->PUPDR &= ~(uint32_t)(0b10)<<10;
   GPIOA->OSPEEDR |= (uint32_t)(0b11)<<10;
+  GPIOC->MODER &= ~(uint32_t)(0b11)<<26;
+  GPIOA->OTYPER &= ~(uint16_t)(0b1)<<13;
+  GPIOA->PUPDR &= ~(uint32_t)(0b11)<<26;
+
 
   /* Infinite loop */
   while (1)
