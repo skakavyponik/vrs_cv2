@@ -29,6 +29,7 @@ SOFTWARE.
 /* Includes */
 #include <stddef.h>
 #include "stm32l1xx.h"
+#include <stdbool.h>
 
 
 /* Private typedef */
@@ -49,6 +50,7 @@ SOFTWARE.
 int main(void)
 {
   int i = 0;
+  bool BUTTON;
 
   /**
   *  IMPORTANT NOTE!
@@ -89,6 +91,7 @@ int main(void)
 	GPIOA->BSRRL |= (uint16_t)(0b1)<<5;   //zapnutie diody
 	GPIOA->ODR ^= (uint16_t)(0b1)<<5;     //zmena stavu diody
 	GPIOA->ODR ^= (uint16_t)(0b1)<<5;     //zmena stavu diody
+	BUTTON= (bool)(GPIOC->IDR & (uint16_t)(0b1)<<13);  //zapisovanie vstupu do premennej
 	i++;
   }
   return 0;
