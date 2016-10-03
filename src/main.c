@@ -49,8 +49,8 @@ SOFTWARE.
 */
 int main(void)
 {
-  int i = 0;
-  bool BUTTON;
+  uint32_t i = 0;
+  uint32_t BUTTON;
   bool pred;
   bool stlacene=0;
   bool predstl =0;
@@ -90,11 +90,11 @@ int main(void)
   /* Infinite loop */
   while (1)
   {
-	  for (i = 0; i < 2000; i++)
+	  for (i = 0; i < 1000000; i++)
 	  	  {
 	  	  }
 	  GPIOA->ODR ^= (uint16_t)(0b1)<<5;     //zmena stavu diody
-  }
+    }
   return 0;
 }
 
