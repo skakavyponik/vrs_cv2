@@ -50,7 +50,7 @@ SOFTWARE.
 int main(void)
 {
   uint32_t i = 0;
-  uint32_t BUTTON;
+  uint16_t BUTTON;
   bool pred;
   bool stlacene=0;
   bool predstl =0;
@@ -76,11 +76,13 @@ int main(void)
 
   /* TODO - Add your application code here */
   RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOA, ENABLE);
+  RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOC, ENABLE);
   GPIOA->MODER |= (uint32_t)(0b01)<<10;
   GPIOA->MODER &= ~(uint32_t)(0b10)<<10;
   GPIOA->OTYPER &= ~(uint16_t)(0b1)<<5;
   GPIOA->PUPDR |= (uint32_t)(0b01)<<10;
   GPIOA->PUPDR &= ~(uint32_t)(0b10)<<10;
+
   GPIOA->OSPEEDR |= (uint32_t)(0b11)<<10;
   GPIOC->MODER &= ~(uint32_t)(0b11)<<26;
   GPIOC->OTYPER &= ~(uint16_t)(0b1)<<13;
@@ -90,10 +92,9 @@ int main(void)
   /* Infinite loop */
   while (1)
   {
-	  for (i = 0; i < 1000000; i++)
-	  	  {
-	  	  }
-	  GPIOA->ODR ^= (uint16_t)(0b1)<<5;     //zmena stavu diody
+	  	  BUTTON = !(GPIOC->IDR &(1<<13));  //zapisovanie vstupu do premennej
+	 	  if (BUTTON==0) GPIOA->ODR |= (uint16_t)(0b1)<<5;     //zapnutie diody
+	 	  else GPIOA->ODR &= ~(uint16_t)(0b1)<<5;    // vypnutie diody
     }
   return 0;
 }
