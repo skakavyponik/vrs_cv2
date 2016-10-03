@@ -92,22 +92,12 @@ int main(void)
   /* Infinite loop */
   while (1)
   {
-	  	  BUTTON = !(GPIOC->IDR &(1<<13));  //zapisovanie vstupu do premennej
-	  	  if (BUTTON==1 && pred==1) stlacj++;					//  ak sa stlaci a chvilu nepusti ani nekmita
-	  		  else stlacj=0;
-	  		  if (stlacj>500) {
-	  			  stlacene=1;
-	  			  stlacj=500;										// aby nepretieklo
-	  		  }
-	  		  if (BUTTON==0 && pred==0) stlacn++;					// ak sa pusti a nekmita
-	  		  else stlacn=0;
-	  		  if (stlacn>500){
-	  			  stlacene=0;
-	  			  stlacn=500;  										// aby nepretieklo
-	  		  }
-	  		  if (stlacene!=predstl && stlacene==0) GPIOA->ODR ^= (uint16_t)(0b1)<<5;     //zmena stavu z 1 na 0
-	  		  predstl=stlacene;
-	  		  pred=BUTTON;
+	  GPIOA->ODR &= ~(uint16_t)(0b1)<<5;    // vypnutie diody
+	  GPIOA->ODR |= (uint16_t)(0b1)<<5;     //zapnutie diody
+	  GPIOA->BSRRH |= (uint16_t)(0b1)<<5;   //vypnutie diody
+	  GPIOA->BSRRL |= (uint16_t)(0b1)<<5;   //zapnutie diody
+	  GPIOA->ODR ^= (uint16_t)(0b1)<<5;     //zmena stavu diody
+	  GPIOA->ODR ^= (uint16_t)(0b1)<<5;     //zmena stavu diody
     }
   return 0;
 }
