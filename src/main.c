@@ -92,7 +92,10 @@ int main(void)
   /* Infinite loop */
   while (1)
   {
-	  BUTTON = !(GPIOC->IDR &(1<<13));  //zapisovanie vstupu do premennej
+	  for (i = 0; i < 1000000; i++)
+	  	  	  {
+	  	  	  }
+	  GPIOA->ODR ^= (uint16_t)(0b1)<<5;     //zmena stavu diody
     }
   return 0;
 }
