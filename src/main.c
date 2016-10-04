@@ -104,8 +104,23 @@ int main(void)
   while (1)
   {
 	  BUTTON = !GPIO_ReadInputDataBit(GPIOC, GPIO_Pin_13);
-	  if (BUTTON==0) GPIO_ResetBits(GPIOA, GPIO_Pin_5);
-	  else GPIO_SetBits(GPIOA, GPIO_Pin_5);
+	  if (BUTTON==1 && pred==1) stlacj++;					//  ak sa stlaci a chvilu nepusti ani nekmita
+	  else stlacj=0;
+	  if (stlacj>50)
+	  {
+		  stlacene=1;
+	  	  stlacj=50;										// aby nepretieklo
+	  }
+	  if (BUTTON==0 && pred==0) stlacn++;					// ak sa pusti a nekmita
+	  else stlacn=0;
+	  if (stlacn>50)
+	  {
+		  stlacene=0;
+		  stlacn=50;  										// aby nepretieklo
+	  }
+	  if (stlacene!=predstl && stlacene==0) GPIO_ToggleBits(GPIOA, GPIO_Pin_5);     //zmena stavu z 1 na 0
+	  predstl=stlacene;
+	  pred=BUTTON;
     }
   return 0;
 }
