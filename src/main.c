@@ -103,10 +103,9 @@ int main(void)
   /* Infinite loop */
   while (1)
   {
-	  for (i = 0; i < 1000000; i++)
-	  	  	  	  {
-	  	  	  	  }
-	  GPIO_ToggleBits(GPIOA, GPIO_Pin_5);
+	  BUTTON = !GPIO_ReadInputDataBit(GPIOC, GPIO_Pin_13);
+	  if (BUTTON==0) GPIO_ResetBits(GPIOA, GPIO_Pin_5);
+	  else GPIO_SetBits(GPIOA, GPIO_Pin_5);
     }
   return 0;
 }
