@@ -77,39 +77,34 @@ int main(void)
   /* TODO - Add your application code here */
   RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOA, ENABLE);
   RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOC, ENABLE);
-  GPIOA->MODER |= (uint32_t)(0b01)<<10;
-  GPIOA->MODER &= ~(uint32_t)(0b10)<<10;
-  GPIOA->OTYPER &= ~(uint16_t)(0b1)<<5;
-  GPIOA->PUPDR |= (uint32_t)(0b01)<<10;
-  GPIOA->PUPDR &= ~(uint32_t)(0b10)<<10;
 
-  GPIOA->OSPEEDR |= (uint32_t)(0b11)<<10;
-  GPIOC->MODER &= ~(uint32_t)(0b11)<<26;
-  GPIOC->OTYPER &= ~(uint16_t)(0b1)<<13;
-  GPIOC->PUPDR &= ~(uint32_t)(0b11)<<26;
+  GPIO_InitTypeDef gpioInitStruc;
+
+  gpioInitStruc.GPIO_Mode = GPIO_Mode_OUT;
+  gpioInitStruc.GPIO_OType = GPIO_OType_PP;
+  gpioInitStruc.GPIO_Pin = GPIO_Pin_5;
+  gpioInitStruc.GPIO_PuPd= GPIO_PuPd_UP;
+  gpioInitStruc.GPIO_Speed = GPIO_Speed_40MHz;
+
+  GPIO_Init(GPIOA, &gpioInitStruc);
+  GPIO_SetBits(GPIOA, GPIO_Pin_5);
+
+  gpioInitStruc.GPIO_Mode = GPIO_Mode_IN;
+  gpioInitStruc.GPIO_OType = GPIO_OType_PP;
+  gpioInitStruc.GPIO_Pin = GPIO_Pin_13;
+  gpioInitStruc.GPIO_PuPd= GPIO_PuPd_NOPULL;
+  gpioInitStruc.GPIO_Speed = GPIO_Speed_40MHz;
+
+  GPIO_Init(GPIOC, &gpioInitStruc);
+
+  BUTTON =GPIO_ReadInputDataBit(GPIOC, GPIO_Pin_13);
 
 
   /* Infinite loop */
   while (1)
   {
-	  BUTTON = !(GPIOC->IDR &(1<<13));  //zapisovanie vstupu do premennej
-	  if (BUTTON==1 && pred==1) stlacj++;					//  ak sa stlaci a chvilu nepusti ani nekmita
-	  else stlacj=0;
-	  if (stlacj>50)
-	  {
-		  stlacene=1;
-	  	  stlacj=50;										// aby nepretieklo
-	  }
-	  if (BUTTON==0 && pred==0) stlacn++;					// ak sa pusti a nekmita
-	  else stlacn=0;
-	  if (stlacn>50)
-	  {
-		  stlacene=0;
-		  stlacn=50;  										// aby nepretieklo
-	  }
-	  if (stlacene!=predstl && stlacene==0) GPIOA->ODR ^= (uint16_t)(0b1)<<5;     //zmena stavu z 1 na 0
-	  predstl=stlacene;
-	  pred=BUTTON;
+	  GPIO_ResetBits(GPIOA, GPIO_Pin_5);
+	  GPIO_SetBits(GPIOA, GPIO_Pin_5);
     }
   return 0;
 }
