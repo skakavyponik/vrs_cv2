@@ -103,8 +103,7 @@ int main(void)
   /* Infinite loop */
   while (1)
   {
-	  GPIO_ResetBits(GPIOA, GPIO_Pin_5);
-	  GPIO_SetBits(GPIOA, GPIO_Pin_5);
+	  BUTTON = !GPIO_ReadInputDataBit(GPIOC, GPIO_Pin_13);
     }
   return 0;
 }
